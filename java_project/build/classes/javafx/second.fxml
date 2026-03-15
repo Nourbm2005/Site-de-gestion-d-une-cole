@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.second" prefHeight="700.0" prefWidth="700.0"
+            style="-fx-background-color: linear-gradient(to bottom right, #667eea 0%, #764ba2 100%);">
+       <VBox layoutX="150" layoutY="20" prefWidth="400" prefHeight="610" 
+          style="-fx-background-color: white; -fx-background-radius: 20; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 20, 0, 0, 5);"
+          spacing="18" alignment="TOP_CENTER">
+        <padding>
+            <Insets top="30" right="50" bottom="30" left="50"/>
+        </padding>
+        
+        
+        <VBox alignment="CENTER" spacing="8">
+            <Label text="Créer un compte">
+                <font>
+                    <Font name="System Bold" size="28"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Rejoignez-nous en quelques étapes">
+                <font>
+                    <Font size="13"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+        </VBox>
+        
+       
+        <Label fx:id="errorLabel" text="" visible="false" wrapText="true"
+               style="-fx-text-fill: #dc3545; -fx-background-color: #f8d7da; -fx-padding: 10; -fx-background-radius: 5; -fx-border-color: #f5c6cb; -fx-border-radius: 5;"/>
+        
+        
+        <VBox spacing="12">
+            <VBox spacing="5">
+                <Label text="Nom" style="-fx-text-fill: #495057; -fx-font-weight: bold; -fx-font-size: 12;"/>
+                <TextField fx:id="nomField" promptText="Votre nom"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 13;"
+                          prefHeight="38"/>
+            </VBox>
+            
+           
+            <VBox spacing="5">
+                <Label text="Prénom" style="-fx-text-fill: #495057; -fx-font-weight: bold; -fx-font-size: 12;"/>
+                <TextField fx:id="prenomField" promptText="Votre prénom"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 13;"
+                          prefHeight="38"/>
+            </VBox>
+            
+            <!-- NEW: Email Field -->
+            <VBox spacing="5">
+                <Label text="Email" style="-fx-text-fill: #495057; -fx-font-weight: bold; -fx-font-size: 12;"/>
+                <TextField fx:id="emailField" promptText="votre.email@ecole.com"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 13;"
+                          prefHeight="38"/>
+            </VBox>
+            
+           
+            <VBox spacing="5">
+                <Label text="Mot de passe" style="-fx-text-fill: #495057; -fx-font-weight: bold; -fx-font-size: 12;"/>
+                <PasswordField fx:id="passwordField" promptText="Mot de passe"
+                              style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 13;"
+                              prefHeight="38"/>
+            </VBox>
+            
+           
+            <VBox spacing="5">
+                <Label text="Confirmer le mot de passe" style="-fx-text-fill: #495057; -fx-font-weight: bold; -fx-font-size: 12;"/>
+                <PasswordField fx:id="confirmPasswordField" promptText="Confirmer mot de passe"
+                              style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10; -fx-font-size: 13;"
+                              prefHeight="38"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Rôle" style="-fx-text-fill: #495057; -fx-font-weight: bold; -fx-font-size: 12;"/>
+                <ComboBox fx:id="roleComboBox" promptText="Sélectionnez le rôle" prefWidth="300" prefHeight="38"
+                         style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-font-size: 13;">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="Directeur"/>
+                            <String fx:value="Enseignant"/>
+                            <String fx:value="Élève"/>
+                        </FXCollections>
+                    </items>
+                </ComboBox>
+            </VBox>
+        </VBox>
+        
+        <HBox spacing="15" alignment="CENTER">
+            <Button fx:id="signUpButton" text="S'inscrire" onAction="#handleSignUp"
+                    prefWidth="140" prefHeight="42"
+                    style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 25; -fx-cursor: hand;"/>
+            <Button fx:id="backToLoginButton" text="Retour" onAction="#handleBackToLogin"
+                    prefWidth="140" prefHeight="42"
+                    style="-fx-background-color: transparent; -fx-text-fill: #6c757d; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: #6c757d; -fx-border-width: 2; -fx-background-radius: 25; -fx-border-radius: 25; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+    
+    <Circle layoutX="100" layoutY="100" radius="80" fill="#ffffff" opacity="0.1"/>
+    <Circle layoutX="600" layoutY="550" radius="120" fill="#ffffff" opacity="0.1"/>
+    <Circle layoutX="50" layoutY="600" radius="60" fill="#ffffff" opacity="0.08"/>
+</AnchorPane>

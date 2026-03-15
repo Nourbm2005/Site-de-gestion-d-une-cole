@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane id="AnchorPane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.third" prefHeight="600" prefWidth="900"
+            style="-fx-background-color: linear-gradient(to bottom right, #667eea 0%, #764ba2 100%);">
+    <Circle layoutX="80" layoutY="80" radius="60" fill="#ffffff" opacity="0.1"/>
+    <Circle layoutX="820" layoutY="520" radius="80" fill="#ffffff" opacity="0.1"/>
+    
+    <!-- Side Menu -->
+    <VBox layoutX="20" layoutY="20" spacing="15" prefWidth="220" prefHeight="560"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="30" right="20" bottom="30" left="20"/>
+        </padding>
+        
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="👔">
+                <font>
+                    <Font size="40"/>
+                </font>
+            </Label>
+            <Label text="Espace Directeur">
+                <font>
+                    <Font name="System Bold" size="16"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Separator prefWidth="180"/>
+        </VBox>
+        
+        <VBox spacing="12">
+            <Button text="📊 Tableau de bord" fx:id="btnDashboard" onAction="#showDashboard"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="👥 Voir Enseignants" fx:id="btnViewTeachers" onAction="#gererEnseignants"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #667eea; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-border-color: #667eea; -fx-border-width: 2; -fx-border-radius: 10; -fx-cursor: hand;"/>
+            <Button text="📚 Voir Élèves" fx:id="btnViewStudents" onAction="#gererEleves"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #667eea; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-border-color: #667eea; -fx-border-width: 2; -fx-border-radius: 10; -fx-cursor: hand;"/>
+        </VBox>
+        
+        <VBox VBox.vgrow="ALWAYS"/>
+        
+       <Button text="🚪 Déconnexion" fx:id="btnLogout" onAction="#handleLogout"
+                prefWidth="180" prefHeight="45"
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+    </VBox>
+    
+    <!-- Dashboard Pane -->
+    <VBox fx:id="dashboardPane" layoutX="260" layoutY="20" spacing="20" prefWidth="620" prefHeight="560"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <VBox spacing="10">
+            <Label text="Tableau de Bord">
+                <font>
+                    <Font name="System Bold" size="24"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Vue d'ensemble de votre établissement">
+                <font>
+                    <Font size="12"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <HBox spacing="15" alignment="CENTER">
+            <VBox spacing="10" alignment="CENTER" prefWidth="180" prefHeight="120"
+                  style="-fx-background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3);">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+                <Label text="👥" style="-fx-font-size: 30px;"/>
+                <Label fx:id="totalTeachersLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+                <Label text="Enseignants" style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+            </VBox>
+            
+            <VBox spacing="10" alignment="CENTER" prefWidth="180" prefHeight="120"
+                  style="-fx-background-color: linear-gradient(135deg, #28a745 0%, #20c997 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3);">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+                <Label text="🎓" style="-fx-font-size: 30px;"/>
+                <Label fx:id="totalStudentsLabel" text="0" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+                <Label text="Élèves" style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+            </VBox>
+            
+            <VBox spacing="10" alignment="CENTER" prefWidth="180" prefHeight="120"
+                  style="-fx-background-color: linear-gradient(135deg, #ffc107 0%, #ff9800 100%); -fx-background-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 3);">
+                <padding>
+                    <Insets top="15" right="15" bottom="15" left="15"/>
+                </padding>
+                <Label text="📊" style="-fx-font-size: 30px;"/>
+                <Label fx:id="averageGradesLabel" text="0.0" style="-fx-text-fill: white; -fx-font-size: 28px; -fx-font-weight: bold;"/>
+                <Label text="Moyenne Générale" style="-fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold;"/>
+            </VBox>
+        </HBox>
+        
+        <VBox spacing="15" VBox.vgrow="ALWAYS">
+            <Label text="Répartition par Classe" style="-fx-font-weight: bold; -fx-font-size: 14px;"/>
+            <BarChart fx:id="classDistributionChart" prefHeight="200"
+                     style="-fx-background-color: transparent;">
+                <xAxis>
+                    <CategoryAxis label="Classes" side="BOTTOM"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis label="Nombre d'élèves" side="LEFT"/>
+                </yAxis>
+            </BarChart>
+        </VBox>    
+    </VBox>
+    
+    <!-- Teacher Management Pane -->
+    <VBox fx:id="teacherPane" layoutX="260" layoutY="20" spacing="15" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Gestion des Enseignants">
+                    <font>
+                        <Font name="System Bold" size="20"/>
+                    </font>
+                    <style>-fx-text-fill: #667eea;</style>
+                </Label>
+                <Separator/>
+            </VBox>
+            <Button text="➕ Ajouter" fx:id="btnAddTeacher" onAction="#showAddTeacherForm"
+                    prefWidth="120" prefHeight="35"
+                    style="-fx-background-color: linear-gradient(to right, #28a745, #20c997); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </HBox>
+        
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Filtrer par matière :" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+            <ComboBox fx:id="teacherMatiereFilter" promptText="Toutes les matières" prefWidth="200"
+                      style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+        </HBox>
+        
+        <TableView fx:id="teacherTable" VBox.vgrow="ALWAYS"
+                   style="-fx-background-color: transparent; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-border-radius: 8;">
+            <columns>
+                <TableColumn text="Nom Complet" fx:id="teacherNameColumn" prefWidth="200"/>
+                <TableColumn text="Email" fx:id="teacherEmailColumn" prefWidth="180"/>
+                <TableColumn text="Matière" fx:id="teacherMatiereColumn" prefWidth="140"/>
+            </columns>
+        </TableView>
+        
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="✏️ Modifier" fx:id="btnUpdateTeacher" onAction="#showUpdateTeacherForm"
+                    prefWidth="120" prefHeight="35"
+                    style="-fx-background-color: linear-gradient(to right, #ffc107, #ff9800); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+            <Button text="🗑️ Supprimer" fx:id="btnDeleteTeacher" onAction="#deleteTeacher"
+                    prefWidth="120" prefHeight="35"
+                    style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+    
+    <!-- Student Management Pane -->
+    <VBox fx:id="studentPane" layoutX="260" layoutY="20" spacing="15" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <HBox alignment="CENTER_LEFT" spacing="15">
+            <VBox spacing="10" HBox.hgrow="ALWAYS">
+                <Label text="Gestion des Élèves">
+                    <font>
+                        <Font name="System Bold" size="20"/>
+                    </font>
+                    <style>-fx-text-fill: #667eea;</style>
+                </Label>
+                <Separator/>
+            </VBox>
+            <Button text="➕ Ajouter" fx:id="btnAddStudent" onAction="#showAddStudentForm"
+                    prefWidth="120" prefHeight="35"
+                    style="-fx-background-color: linear-gradient(to right, #28a745, #20c997); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </HBox>
+        
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Filtrer par classe :" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+            <ComboBox fx:id="studentClassFilter" promptText="Toutes les classes" prefWidth="200"
+                      style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+        </HBox>
+        
+        <TableView fx:id="studentTable" VBox.vgrow="ALWAYS"
+                   style="-fx-background-color: transparent; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-border-radius: 8;">
+            <columns>
+                <TableColumn text="Nom Complet" fx:id="studentNameColumn" prefWidth="180"/>
+                <TableColumn text="Email" fx:id="studentEmailColumn" prefWidth="160"/>
+                <TableColumn text="Classe" fx:id="studentClassColumn" prefWidth="100"/>
+                <TableColumn text="Moyenne" fx:id="studentGradeColumn" prefWidth="80"/>
+            </columns>
+        </TableView>
+        
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button text="✏️ Modifier" fx:id="btnUpdateStudent" onAction="#showUpdateStudentForm"
+                    prefWidth="120" prefHeight="35"
+                    style="-fx-background-color: linear-gradient(to right, #ffc107, #ff9800); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+            <Button text="🗑️ Supprimer" fx:id="btnDeleteStudent" onAction="#deleteStudent"
+                    prefWidth="120" prefHeight="35"
+                    style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 12; -fx-background-radius: 8; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+    
+    <!-- Add Teacher Form Pane -->
+    <VBox fx:id="addTeacherPane" layoutX="260" layoutY="20" spacing="20" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="50" bottom="25" left="50"/>
+        </padding>
+        
+        <VBox spacing="10">
+            <Label text="Ajouter un Enseignant">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <Label fx:id="teacherFormError" text="" visible="false" wrapText="true"
+               style="-fx-text-fill: #dc3545; -fx-background-color: #f8d7da; -fx-padding: 10; -fx-background-radius: 5;"/>
+        
+        <VBox spacing="15">
+            <VBox spacing="5">
+                <Label text="Nom" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <TextField fx:id="teacherNomField" promptText="Nom de l'enseignant" prefHeight="40"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Prénom" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <TextField fx:id="teacherPrenomField" promptText="Prénom de l'enseignant" prefHeight="40"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Email" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <TextField fx:id="teacherEmailField" promptText="email@ecole.com" prefHeight="40"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Matière enseignée" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <ComboBox fx:id="teacherMatiereCombo" promptText="Sélectionnez une matière" prefHeight="40" prefWidth="520"
+                         style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+            </VBox>
+        </VBox>
+        
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="💾 Enregistrer" fx:id="btnSaveTeacher" onAction="#saveTeacher"
+                    prefWidth="150" prefHeight="45"
+                    style="-fx-background-color: linear-gradient(to right, #28a745, #20c997); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="❌ Annuler" fx:id="btnCancelTeacher" onAction="#gererEnseignants"
+                    prefWidth="150" prefHeight="45"
+                    style="-fx-background-color: transparent; -fx-text-fill: #6c757d; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: #6c757d; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+    
+    <!-- Add Student Form Pane -->
+    <VBox fx:id="addStudentPane" layoutX="260" layoutY="20" spacing="20" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="50" bottom="25" left="50"/>
+        </padding>
+        
+        <VBox spacing="10">
+            <Label text="Ajouter un Élève">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <Label fx:id="studentFormError" text="" visible="false" wrapText="true"
+               style="-fx-text-fill: #dc3545; -fx-background-color: #f8d7da; -fx-padding: 10; -fx-background-radius: 5;"/>
+        
+        <VBox spacing="15">
+            <VBox spacing="5">
+                <Label text="Nom" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <TextField fx:id="studentNomField" promptText="Nom de l'élève" prefHeight="40"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Prénom" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <TextField fx:id="studentPrenomField" promptText="Prénom de l'élève" prefHeight="40"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Email" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <TextField fx:id="studentEmailField" promptText="email@ecole.com" prefHeight="40"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Date de naissance" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <DatePicker fx:id="studentDatePicker" promptText="Sélectionnez une date" prefHeight="40"
+                           style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+            </VBox>
+            
+            <VBox spacing="5">
+                <Label text="Classe/Filière" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <ComboBox fx:id="studentClassCombo" promptText="Sélectionnez une classe" prefHeight="40" prefWidth="520"
+                         style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+            </VBox>
+            <VBox spacing="5">
+    <Label text="Moyenne" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+    <TextField fx:id="studentMoyenneField" promptText="Entrez la moyenne" prefHeight="40"
+               style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10;"/>
+</VBox>
+
+        </VBox>
+        
+        <HBox spacing="15" alignment="CENTER">
+            <Button text="💾 Enregistrer" fx:id="btnSaveStudent" onAction="#saveStudent"
+                    prefWidth="150" prefHeight="45"
+                    style="-fx-background-color: linear-gradient(to right, #28a745, #20c997); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="❌ Annuler" fx:id="btnCancelStudent" onAction="#gererEleves"
+                    prefWidth="150" prefHeight="45"
+                    style="-fx-background-color: transparent; -fx-text-fill: #6c757d; -fx-font-weight: bold; -fx-font-size: 14; -fx-border-color: #6c757d; -fx-border-width: 2; -fx-background-radius: 10; -fx-border-radius: 10; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

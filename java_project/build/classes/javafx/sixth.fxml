@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.geometry.Insets?>
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.sixth">
+     <Circle layoutX="80" layoutY="80" radius="60" fill="#ffffff" opacity="0.1"/>
+    <Circle layoutX="820" layoutY="520" radius="80" fill="#ffffff" opacity="0.1"/>
+    
+    <!-- Side Menu -->
+    <VBox layoutX="20" layoutY="20" spacing="15" prefWidth="220" prefHeight="560"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="30" right="20" bottom="30" left="20"/>
+        </padding>
+        
+        <!-- User profile section -->
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="🎓">
+                <font>
+                    <Font size="40"/>
+                </font>
+            </Label>
+            <Label text="Espace Élève">
+                <font>
+                    <Font name="System Bold" size="16"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Separator prefWidth="180"/>
+        </VBox>
+        
+        <!-- Navigation buttons -->
+        <VBox spacing="12">
+            <Button text="📊 Mes notes" fx:id="btnViewGrades" onAction="#showGrades"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="👤 Mon profil" fx:id="btnViewProfile" onAction="#showProfile"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #667eea; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-border-color: #667eea; -fx-border-width: 2; -fx-border-radius: 10; -fx-cursor: hand;"/>
+        </VBox>
+        
+        <!-- Spacer -->
+        <VBox VBox.vgrow="ALWAYS"/>
+        
+        <!-- Logout button at bottom -->
+        <Button text="🚪 Déconnexion" fx:id="btnLogout" onAction="#handleLogout"
+                prefWidth="180" prefHeight="45"
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+    </VBox>
+    
+    <!-- Main Content -->
+    <AnchorPane fx:id="contentPane" layoutX="260" layoutY="20" prefWidth="620" prefHeight="560"
+                style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <VBox alignment="CENTER" spacing="20" layoutX="160" layoutY="200">
+            <Label text="Bienvenue Élève">
+                <font>
+                    <Font name="System Bold" size="28"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Consultez vos notes et votre profil">
+                <font>
+                    <Font size="14"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+        </VBox>
+    </AnchorPane>
+    
+    <!-- Grades Pane -->
+    <VBox fx:id="gradesPane" layoutX="260" layoutY="20" spacing="15" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <!-- Header -->
+        <VBox spacing="10">
+            <Label text="Mes Notes">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Consultez vos résultats et commentaires">
+                <font>
+                    <Font size="12"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <!-- Table -->
+        <TableView fx:id="gradesTable" VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: transparent; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-border-radius: 8;">
+            <columns>
+                <TableColumn text="Matière" fx:id="subjectColumn" prefWidth="200"/>
+                <TableColumn text="Note" fx:id="gradeColumn" prefWidth="100"/>
+                <TableColumn text="Commentaire" fx:id="commentColumn" prefWidth="250"/>
+            </columns>
+        </TableView>
+    </VBox>
+    
+    <!-- Profile Pane -->
+    <VBox fx:id="profilePane" layoutX="260" layoutY="20" spacing="20" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <!-- Header -->
+        <VBox spacing="10">
+            <Label text="Mon Profil">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Informations personnelles">
+                <font>
+                    <Font size="12"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <!-- Profile Info Card -->
+        <VBox spacing="15" style="-fx-background-color: #f8f9fa; -fx-padding: 25; -fx-background-radius: 10;">
+            <HBox spacing="15">
+                <Label text="👤" style="-fx-font-size: 40px;"/>
+                <VBox spacing="5">
+                    <Label text="Informations de l'élève" style="-fx-font-weight: bold; -fx-font-size: 16px;"/>
+                    <Label text="Détails de votre compte" style="-fx-text-fill: #6c757d; -fx-font-size: 12px;"/>
+                </VBox>
+            </HBox>
+            
+            <Separator/>
+            
+            <GridPane hgap="15" vgap="15">
+                <!-- Nom -->
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                    <Label text="Nom" style="-fx-text-fill: #6c757d; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <Label fx:id="nameLabel" text="---" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                </VBox>
+                
+                <!-- Prénom -->
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                    <Label text="Prénom" style="-fx-text-fill: #6c757d; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <Label fx:id="surnameLabel" text="---" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                </VBox>
+                
+                <!-- Classe -->
+                <VBox spacing="5" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                    <Label text="Classe" style="-fx-text-fill: #6c757d; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <Label fx:id="classLabel" text="---" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                </VBox>
+                
+                <!-- Email -->
+                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <Label text="Email" style="-fx-text-fill: #6c757d; -fx-font-size: 11px; -fx-font-weight: bold;"/>
+                    <Label fx:id="emailLabel" text="---" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+                </VBox>
+            </GridPane>
+        </VBox>
+    </VBox>
+</AnchorPane>

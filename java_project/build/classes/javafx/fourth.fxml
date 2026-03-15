@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane prefHeight="600" prefWidth="900"
+            style="-fx-background-color: linear-gradient(to bottom right, #667eea 0%, #764ba2 100%);" id="AnchorPane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafx.fourth">
+       <!-- Decorative circles -->
+    <Circle layoutX="80" layoutY="80" radius="60" fill="#ffffff" opacity="0.1"/>
+    <Circle layoutX="820" layoutY="520" radius="80" fill="#ffffff" opacity="0.1"/>
+    
+    <!-- Side Menu -->
+    <VBox layoutX="20" layoutY="20" spacing="15" prefWidth="220" prefHeight="560"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="30" right="20" bottom="30" left="20"/>
+        </padding>
+        
+        <!-- User profile section -->
+        <VBox alignment="CENTER" spacing="10">
+            <Label text="👨‍🏫">
+                <font>
+                    <Font size="40"/>
+                </font>
+            </Label>
+            <Label text="Espace Enseignant">
+                <font>
+                    <Font name="System Bold" size="16"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label fx:id="teacherNameLabel" text="Marie Dupont">
+                <font>
+                    <Font size="12"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+            <Label fx:id="teacherMatiereLabel" text="Mathématiques">
+                <font>
+                    <Font name="System Bold" size="11"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Separator prefWidth="180"/>
+        </VBox>
+        
+        <!-- Navigation buttons -->
+        <VBox spacing="12">
+            <Button text="👥 Voir mes élèves" fx:id="btnViewStudents" onAction="#gererEleves"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="📝 Gérer les notes" fx:id="btnViewGrades" onAction="#showGrades"
+                    prefWidth="180" prefHeight="45"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #667eea; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-border-color: #667eea; -fx-border-width: 2; -fx-border-radius: 10; -fx-cursor: hand;"/>
+        </VBox>
+        
+        <VBox VBox.vgrow="ALWAYS"/>
+        
+        <Button text="🚪 Déconnexion" fx:id="btnLogout" onAction="#handleLogout"
+                prefWidth="180" prefHeight="45"
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+    </VBox>
+    
+
+    <AnchorPane fx:id="contentPane" layoutX="260" layoutY="20" prefWidth="620" prefHeight="560"
+                style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <VBox alignment="CENTER" spacing="20" layoutX="130" layoutY="200">
+            <Label text="Bienvenue Enseignant">
+                <font>
+                    <Font name="System Bold" size="28"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Gérez vos élèves et leurs notes depuis le menu">
+                <font>
+                    <Font size="14"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+        </VBox>
+    </AnchorPane>
+    
+    <!-- Student Pane -->
+    <VBox fx:id="studentPane" layoutX="260" layoutY="20" spacing="15" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <!-- Header -->
+        <VBox spacing="10">
+            <Label text="Liste de mes élèves">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Élèves inscrits dans vos cours">
+                <font>
+                    <Font size="12"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <!-- Filter -->
+        <HBox spacing="15" alignment="CENTER_LEFT">
+            <Label text="Filtrer par classe :" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+            <ComboBox fx:id="studentClassFilter" promptText="Toutes les classes" prefWidth="200"
+                      style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+        </HBox>
+        
+        <!-- Table -->
+        <TableView fx:id="studentTable" VBox.vgrow="ALWAYS"
+                  style="-fx-background-color: transparent; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-border-radius: 8;">
+            <columns>
+                <TableColumn text="Nom de l'Élève" fx:id="studentNameColumn" prefWidth="220"/>
+                <TableColumn text="Classe" fx:id="studentClassColumn" prefWidth="130"/>
+                <TableColumn text="Email" fx:id="studentEmailColumn" prefWidth="200"/>
+            </columns>
+        </TableView>
+    </VBox>
+    
+    <!-- Grades Management Pane -->
+    <VBox fx:id="gradesPane" layoutX="260" layoutY="20" spacing="15" prefWidth="620" prefHeight="560" visible="false"
+          style="-fx-background-color: rgba(255, 255, 255, 0.95); -fx-background-radius: 15; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 15, 0, 0, 3);">
+        <padding>
+            <Insets top="25" right="25" bottom="25" left="25"/>
+        </padding>
+        
+        <!-- Header -->
+        <VBox spacing="10">
+            <Label text="Gestion des notes">
+                <font>
+                    <Font name="System Bold" size="20"/>
+                </font>
+                <style>-fx-text-fill: #667eea;</style>
+            </Label>
+            <Label text="Cliquez sur une cellule 'Note' pour modifier">
+                <font>
+                    <Font size="12"/>
+                </font>
+                <style>-fx-text-fill: #6c757d;</style>
+            </Label>
+            <Separator/>
+        </VBox>
+        
+        <!-- Filter and Stats -->
+        <HBox spacing="20" alignment="CENTER_LEFT">
+            <VBox spacing="5">
+                <Label text="Filtrer par classe :" style="-fx-font-weight: bold; -fx-font-size: 13;"/>
+                <ComboBox fx:id="gradeClassFilter" promptText="Toutes les classes" prefWidth="180"
+                          style="-fx-background-color: #f8f9fa; -fx-border-color: #dee2e6; -fx-border-radius: 8; -fx-background-radius: 8;"/>
+            </VBox>
+            <VBox spacing="5" alignment="CENTER" prefWidth="120" prefHeight="60"
+                  style="-fx-background-color: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -fx-background-radius: 10;">
+                <Label text="📊" style="-fx-font-size: 20px;"/>
+                <Label fx:id="classMoyenneLabel" text="14.5" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <Label text="Moyenne Classe" style="-fx-text-fill: white; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+            </VBox>
+        </HBox>
+        
+        <!-- Grades Table with editable notes -->
+        <TableView fx:id="gradesTable" VBox.vgrow="ALWAYS" editable="true"
+                  style="-fx-background-color: transparent; -fx-border-color: #dee2e6; -fx-border-width: 1; -fx-border-radius: 8;">
+            <columns>
+                <TableColumn text="Élève" fx:id="gradesStudentColumn" prefWidth="200" editable="false"/>
+                <TableColumn text="Classe" fx:id="gradesClassColumn" prefWidth="100" editable="false"/>
+                <TableColumn text="Note (/20)" fx:id="gradesColumn" prefWidth="100"/>
+                <TableColumn text="Commentaire" fx:id="commentColumn" prefWidth="190"/>
+            </columns>
+        </TableView>
+        
+        <!-- Action Buttons -->
+        <HBox alignment="CENTER" spacing="15">
+            <Button text="➕ Ajouter Note" fx:id="btnAddGrade" onAction="#showAddGradeDialog"
+                    prefWidth="150" prefHeight="42"
+                    style="-fx-background-color: linear-gradient(to right, #667eea, #764ba2); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="💾 Enregistrer" fx:id="btnUpdateGrades" onAction="#handleUpdateGrades"
+                    prefWidth="150" prefHeight="42"
+                    style="-fx-background-color: linear-gradient(to right, #28a745, #20c997); -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+            <Button text="🗑️ Supprimer" fx:id="btnDeleteGrade" onAction="#deleteGrade"
+                    prefWidth="150" prefHeight="42"
+                    style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 13; -fx-background-radius: 10; -fx-cursor: hand;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
